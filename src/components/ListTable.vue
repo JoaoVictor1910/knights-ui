@@ -1,18 +1,5 @@
 <template>
-    <div class="table-container">
-        <div class="row">
-            <div class="col-3">
-                <div class="form-group search-bar">
-                    <input type="text" class="form-control" placeholder="Search" v-model="searchTerm" />
-                </div>
-            </div>
-            <div class="col-1">
-                <div class="">
-                    <button class="btn" type="submit" @click="filteredPeople(person)">Pesquisar</button>
-                </div>
-            </div>
-        </div>
-        
+    <div class="table-container">        
         <table class="table">
         <thead>
             <tr>
@@ -30,12 +17,13 @@
             <td>{{ person.name }}</td>
             <td>{{ person.age }}</td>
             <td>{{ person.weapons }}</td>
-            <td>{{ person.attributes }}</td>
+            <td>{{ person.attribute }}</td>
             <td>{{ person.attack }}</td>
-            <td>{{ person.experience }}</td>
+            <td>{{ person.exp }}</td>
             <td>
                 <button class="btn btn-primary btn-sm mr-2" @click="editPerson(person)">Edit</button>
                 <button class="btn btn-danger btn-sm" @click="deletePerson(person)">Delete</button>
+                <button class="btn btn-primary btn-sm ml-2" @click="viewPerson(person)">View</button>
             </td>
             </tr>
         </tbody>
@@ -51,13 +39,6 @@
         required: true
       }
     },
-    computed: {
-        filteredPeople() {
-            return this.people.filter(person => {
-                return person.name.toLowerCase().includes(this.searchTerm.toLowerCase());
-            });
-        }
-    },
     methods: {
       editPerson(person) {
         this.$emit("edit", person);
@@ -65,6 +46,15 @@
       deletePerson(person) {
         this.$emit("delete", person);
       },
+      viewPerson(person) {
+        this.$emit("view", person)
+      },
+      filteredPeople(){
+        this.$emit("filter");
+      },
+      listAll(){
+        this.$emit("list");
+      }
     }
   };
   </script>

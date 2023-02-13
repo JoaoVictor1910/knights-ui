@@ -19,19 +19,19 @@
                 <div class="form-group">
                     <div>
                     <label for="input" class="form-label">Name:</label>
-                    <input id="input" v-model="formData.name" label="Name" class="form-control"/>
+                    <input id="input" v-model="formData.name" label="Name" class="form-control" :placeholder="formData.name"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <div>
                     <label for="input" class="form-label">Nickname:</label>
-                    <input id="input" v-model="formData.nickname" label="Nickname" class="form-control"/>
+                    <input id="input" v-model="formData.nickname" label="Nickname" class="form-control" :placeholder="formData.nickname"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <div>
                     <label for="input" class="form-label">Birthday:</label>
-                    <input id="input" v-model="formData.birthday" label="Birthday" type="date" class="form-control"/>
+                    <input id="input" v-model="formData.birthday" label="Birthday" type="date" class="form-control" :placeholder="formData.birthday"/>
                     </div>
                 </div>
                 <h2 class="formDescription">Weapons:</h2>
@@ -43,7 +43,7 @@
                     v-model="formData.weapons[0].name"
                     label="Weapon Name"
                     class="form-control"
-                    />
+                    :placeholder="formData.weapons[0].name"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -55,7 +55,7 @@
                     label="Weapon Mod"
                     type="number"
                     class="form-control"
-                    />
+                    :placeholder="formData.weapons[0].mod"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -66,7 +66,7 @@
                     v-model="formData.weapons[0].attr"
                     label="Weapon Attribute"
                     class="form-control"
-                    />
+                    :placeholder="formData.weapons[0].attr"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -77,7 +77,7 @@
                     v-model="formData.weapons[0].equipped"
                     label="Weapon Equipped"
                     type="checkbox"
-                    />
+                    :placeholder="formData.weapons[0].equipped"/>
                     </div>
                 </div>
                 <h2 class="formDescription">Attributes:</h2>
@@ -90,7 +90,7 @@
                     label="Strength"
                     type="number"
                     class="form-control"
-                    />
+                    :placeholder="formData.attributes[0].strength"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -102,7 +102,7 @@
                     label="Dexterity"
                     type="number"
                     class="form-control"
-                    />
+                    :placeholder="formData.attributes[0].dexterity"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -114,7 +114,7 @@
                     label="Constitution"
                     type="number"
                     class="form-control"
-                    />
+                    :placeholder="formData.attributes[0].constitution"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -126,7 +126,7 @@
                     label="Intelligence"
                     type="number"
                     class="form-control"
-                    />
+                    :placeholder="formData.attributes[0].intelligence"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -138,7 +138,7 @@
                     label="Wisdom"
                     type="number"
                     class="form-control"
-                    />
+                    :placeholder="formData.attributes[0].wisdom"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -150,7 +150,7 @@
                     label="Charisma"
                     type="number"
                     class="form-control"
-                    />
+                    :placeholder="formData.attributes[0].charisma"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -161,7 +161,7 @@
                     v-model="formData['keyAttribute']"
                     label="Key Attribute"
                     class="form-control"
-                    />
+                    :placeholder="formData.keyAttribute"/>
                     </div>
                 </div>
                 <div class="btn-submit">
@@ -183,6 +183,7 @@ export default {
     },
     data() {
         const formData = {
+            id: '',
             name: '',
             nickname: '',
             birthday: '',
@@ -206,22 +207,27 @@ export default {
         }
 
         return {
-            formData
+            formData,
         }
+    },
+    async created(){
+        let id = this.$route.query.id;
+        const list = await api.viewKnight(id);
+        this.formData = list.data[0];
     },
     methods: {
         async submitForm(){
             try {
                 
-                const create = await api.createKnight(this.formData);
+                const create = await api.updateKnight(this.formData);
                 if(create.data.save === true){
-                    alert('CÃOVALEIRO CRIADO COM SUCESSO')
+                    alert('CÃOVALEIRO ATUALIZADO COM SUCESSO')
                 } else {
-                    alert('FALHA AO CRIAR TEU SOLDADO, TENTE COM UM GATO')
+                    alert('FALHA AO ATUALIZAR TEU SOLDADO, TENTE COM UM GATO')
                 }
 
             } catch (error) {
-                alert('Não foi possivel criar teu cãovaleiro!')
+                alert('Não foi possivel atualizar teu cãovaleiro!')
             }
         }
     }
@@ -231,7 +237,7 @@ export default {
 <style>
 
 .form-control{
-    background: none;
+    background: white;
     border: none;
 }
 .form-group{
@@ -290,6 +296,11 @@ export default {
     font-weight: bold;
     border-bottom: 4px solid black;
     margin-bottom: 10px;
+}
+.form-label{
+    color: #eee;
+    padding: 0 20px;
+    font-weight: bold;
 }
 
 </style>

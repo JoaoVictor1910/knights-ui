@@ -57,6 +57,15 @@ h1 {
     padding: 50px 40px;
     border: 5px solid #fff;
     border-radius: 8px;
+    background: #444343;
+    transition: 0.3s;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.link-cell > a:hover{
+    background: #fff;
+    color: #000;
+    text-decoration: none;
 }
 </style>
   
