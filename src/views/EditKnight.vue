@@ -176,6 +176,7 @@
 <script>
 // import FormInput from '@/components/FormInput.vue';
 import api from '@/store/api.js';
+import moment from 'moment';
 
 export default {
     components: {
@@ -213,6 +214,7 @@ export default {
     async created(){
         let id = this.$route.query.id;
         const list = await api.viewKnight(id);
+        list.data[0].birthday = moment(list.data[0].birthday).format('YYYY-MM-DD');
         this.formData = list.data[0];
     },
     methods: {
@@ -273,7 +275,7 @@ export default {
     transform: translate(100px, -35px);
 }
 .slugTwo{
-    transform: rotate(11deg) translate(60px, 16px);
+    transform: rotate(11deg) translate(0, 16px);
     font-size: 25px;
     border-bottom: 3px solid #000;
     width: fit-content;

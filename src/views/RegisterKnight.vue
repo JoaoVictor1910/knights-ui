@@ -267,7 +267,7 @@ export default {
     transform: translate(100px, -35px);
 }
 .slugTwo{
-    transform: rotate(11deg) translate(60px, 16px);
+    transform: rotate(11deg) translate(0, 16px);
     font-size: 25px;
     border-bottom: 3px solid #000;
     width: fit-content;
